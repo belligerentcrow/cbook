@@ -1,10 +1,6 @@
 #include <stdio.h>
 
-<<<<<<< HEAD
-int power(int x, int y);
-=======
 int power(int, int);
->>>>>>> 17d6e45bad0170a0d18a1f26dc05ed2aacb4a325
 
 int main(){
     int first, second;
