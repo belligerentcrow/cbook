@@ -1,4 +1,7 @@
 #include <stdio.h>
+
+int power(int, int);
+
 int main(){
     int first, second;
     first = 10;
