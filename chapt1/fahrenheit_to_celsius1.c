@@ -11,7 +11,7 @@ main (){
     fahr = lower; //we start the fahr counting with 0
     while(fahr<=upper){   //while the fahr temperature is not yet 300;
         celsius = 5* (fahr - 32) / 9;  //cels to fahr conversion formula
-        printf("%d \t %d\n", fahr, celsius); // print fahr then cels
+        printf("%3d %6d\n", fahr, celsius); // print fahr then cels
         fahr = fahr + step; //add the step to fahr temperature
     }
 }
