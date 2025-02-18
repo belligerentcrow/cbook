@@ -11,10 +11,10 @@ main(){
     state = lenghtword = 0; //state notes if we're in a word, while lenghtword counts the lenght
     c = 0;
     for(int i = 0; i<MAXLENGHT; ++i){
-        wlenghts[i] = 0;
+        wlenghts[i] = 0;    // set all array cells to 0 
     }
     while((c = getchar()) != '0') { // 0 as stop key
-        ++lenghtword;       //every char it increases
+        ++lenghtword;       //every char it increases . could be put at the end of the while maybe
         if(c == ' ' || c == '\n' || c == '\t'){
             state = OUT;
             if(prevstate ==OUT){
@@ -30,7 +30,7 @@ main(){
         count = wlenghts[i];
         printf("%d : ",i);
         while(count >0){
-            printf("x");
+            printf("x"); //print how many per cell
             --count;
         }
         printf("\n");
