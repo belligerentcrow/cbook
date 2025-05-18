@@ -1,5 +1,4 @@
 # cbook
 little c projects. reading: The C Programming Language
 
-## Chapter 1
-
+Also contains homework from OS and computer Networks

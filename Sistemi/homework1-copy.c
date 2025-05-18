@@ -1,6 +1,6 @@
 #include <fcntl.h>  //file-control methods and options (open, O_RDONLY, O_WRONLY)
 #include <libgen.h>  //contains the method 'basename()', to extract the filename from a path
-#include <limits.h> //PATH_MAX, which defines the maximum length of a file path
+#include <limits.h> //PATH_MAX, which defines the maximum length of a file path   dja
 #include <stdio.h> // IO operations (perror(), printf(), and i suppose sprintf()) 
 #include <stdlib.h> //methods such as exit(), malloc(), calloc()
 #include <unistd.h> //POSIX API (the read(), write(), close() methods)
