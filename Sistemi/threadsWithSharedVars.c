@@ -24,6 +24,7 @@ struct thread_data{
     struct shared *shy;
 };
 
+//function of the first thread
 void * firstFunc(void *arg){
     int err;
     struct thread_data *dataptr = (struct thread_data *)arg;
@@ -45,6 +46,7 @@ void * firstFunc(void *arg){
     return (NULL);
 }
 
+//function of the second thread
 void * secondFunc(void *arg){
     int err;
     struct thread_data *dataptr = (struct thread_data *)arg;
@@ -66,6 +68,7 @@ void * secondFunc(void *arg){
     return (NULL);
 }
 
+//function of the third thread
 void * thirdFunc(void *arg){
     int err;
     struct thread_data *dataptr = (struct thread_data *)arg;
@@ -88,13 +91,14 @@ void * thirdFunc(void *arg){
 }
 
 int main(void){
-    pid_t currentPID = getpid();
-    int err=0;
-    struct shared sh = {0,PTHREAD_MUTEX_INITIALIZER};
-    //pthread_mutex_t mutex = pthread_mutex_init(PTHREAD_MUTEX_INITIALIZER, c);
-    struct thread_data dats[3];
-    unsigned long expectedTot = STARTVALUE+((INCREMENT_FIRST*CYCLES) + (INCREMENT_SECOND*CYCLES)+(INCREMENT_THIRD*CYCLES));
+    pid_t currentPID = getpid(); //pid of the process (contains all three threads)
+    int err=0; //used by the threads to signal errors
+    struct shared sh = {0,PTHREAD_MUTEX_INITIALIZER}; //setting up shared mutex
+  
+    struct thread_data dats[3]; //setting up array of 3 structs of data, one for each thread
+    unsigned long expectedTot = STARTVALUE+((INCREMENT_FIRST*CYCLES) + (INCREMENT_SECOND*CYCLES)+(INCREMENT_THIRD*CYCLES)); //calculate how much the tot should be 
     
+    //assigning data to each thread yes i know this could be automated but bear with me here
     dats[0].incr = INCREMENT_FIRST;
     dats[0].shy = &sh;
     dats[1].incr = INCREMENT_SECOND;
@@ -102,29 +106,32 @@ int main(void){
     dats[2].incr = INCREMENT_THIRD;
     dats[2].shy = &sh;
 
-    
+    //dad says hi
     printf("%d\n",currentPID);
     printf("[%d] padre creato.\n", getpid());
     printf("[%d] sono il padre!, il mio padre è %d\n", getpid(), getppid());
     
     pthread_t firstThread, secondThread, thirdThread;
 
+    //creating the threads! first
     printf("[%d] creo primo thread\n",getpid());
     if((err=pthread_create(&firstThread, NULL, firstFunc, (void *)(&dats[0])))!=0){
         exit_with_err("pthread_create first thread", err);
     }
 
+    //second thread creation
     printf("[%d] creo secondo thread\n",getpid());
     if((err=pthread_create(&secondThread, NULL, secondFunc,(void *)(&dats[1])))!=0){
         exit_with_err("pthread_create second thread", err);
     }
 
+    //creating the third thread
     printf("[%d] creo terzo thread\n",getpid());
     if((err=pthread_create(&thirdThread, NULL, thirdFunc, (void *)(&dats[2])))!=0){
         exit_with_err("pthread_create third thread", err);
     }
 
-
+    //waiting for the threads to complete their calculation
     printf("[%d] aspetto che i thread finiscano... tocca a '%lu'\n", getpid(), dats[0].tid);
     if((err=pthread_join(firstThread, NULL))!=0){
         exit_with_err("pthread_join first\n",err);
@@ -143,12 +150,15 @@ int main(void){
     }
     printf("[%d] '%lu' terminato!\n", getpid(), dats[2].tid);
 
+    //you should get here only after all the threads are done
+    //final calc done here
     printf("[%d] controllo finale: dovrebbe essere %lu, e ho %lu\n", getpid(), expectedTot, sh.c);
 
-   if(expectedTot==sh.c){
+    //exit depends on result: how did it go?
+    if(expectedTot==sh.c){
         printf("[%d] risultato corretto!", getpid());
         exit(EXIT_SUCCESS);
-   }else{
+    } else {
         printf("[%d] risultato errato!", getpid());
         exit(EXIT_FAILURE);
    }
