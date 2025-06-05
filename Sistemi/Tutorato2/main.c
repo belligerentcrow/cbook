@@ -14,14 +14,22 @@ void copy(char * source, char * dest){
     char path_destination[PATH_MAX];
     sprintf(path_destination, "%s/%s", "dest", dest);
 
-    int fin;
-    int fout;
-    int size;
+    int fin, fout, size;
     char buffer[BUFSIZE];
     if((fin = open(source, O_RDONLY | O_CREAT))<0){
         exit_with_sys_err("Errore open fin");
     }
-    
+
+    do {
+        size = read(fin, buffer, BUFSIZE);
+        if(size<0){
+            exit_with_sys_err("size error");
+        }elseif(size>0){
+            if((write(fout, buffer, size))<0){
+                
+            }
+        }
+    } while(true);
     
 }
 
